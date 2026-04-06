@@ -31,7 +31,6 @@ val WarningAmberDark = Color(0xFFE6AC00)
 // ── Category Colors ───────────────────────────────────────────────────────────
 val CategoryFood        = Color(0xFFFF8C61)
 val CategoryTravel      = Color(0xFF4FC3F7)
-val CategoryBills       = Color(0xFFFF6B6B)
 val CategoryShopping    = Color(0xFFCE93D8)
 val CategoryEntertainment = Color(0xFFFFD54F)
 val CategoryHealth      = Color(0xFF80CBC4)

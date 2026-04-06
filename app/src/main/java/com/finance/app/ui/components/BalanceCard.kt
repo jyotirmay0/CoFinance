@@ -74,7 +74,7 @@ fun BalanceCard(
             .background(gradient)
             .padding(16.dp)
     ) {
-        // Decorative circle top-right
+
         Box(
             modifier = Modifier
                 .size(120.dp)
@@ -91,7 +91,7 @@ fun BalanceCard(
         )
 
         Column {
-            // "This Month" badge
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),

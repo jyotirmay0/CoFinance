@@ -1,9 +1,7 @@
 package com.finance.app.di
 
-import com.finance.app.data.repository.BillRepositoryImpl
 import com.finance.app.data.repository.GoalRepositoryImpl
 import com.finance.app.data.repository.TransactionRepositoryImpl
-import com.finance.app.domain.repository.BillRepository
 import com.finance.app.domain.repository.GoalRepository
 import com.finance.app.domain.repository.TransactionRepository
 import dagger.Binds
@@ -27,10 +25,4 @@ abstract class AppModule {
     abstract fun bindGoalRepository(
         impl: GoalRepositoryImpl
     ): GoalRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindBillRepository(
-        impl: BillRepositoryImpl
-    ): BillRepository
 }

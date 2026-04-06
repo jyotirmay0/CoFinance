@@ -6,7 +6,6 @@ import com.finance.app.domain.model.Category
 fun Category.toColor(): Color = when (this) {
     Category.FOOD         -> CategoryFood
     Category.TRAVEL       -> CategoryTravel
-    Category.BILLS        -> CategoryBills
     Category.SHOPPING     -> CategoryShopping
     Category.ENTERTAINMENT -> CategoryEntertainment
     Category.HEALTH       -> CategoryHealth

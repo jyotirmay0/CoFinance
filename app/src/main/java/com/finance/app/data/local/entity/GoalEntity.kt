@@ -11,6 +11,6 @@ data class GoalEntity(
     val targetAmount: Double,
     val currentAmount: Double,
     val type: String = "OTHER",
-    val deadline: Long?,          // epoch millis, nullable
+    val deadline: Long?,
     val createdAt: Long = System.currentTimeMillis()
 )

@@ -43,7 +43,6 @@ class HomeViewModel @Inject constructor(
         getTransactionsUseCase.recent(limit = 5),
         getGoalUseCase.all()
     ) { summary, recent, allGoals ->
-        // Pick priority goal: earliest deadline first, then highest progress
         val priorityGoal = allGoals
             .filter { !it.isCompleted }
             .sortedWith(

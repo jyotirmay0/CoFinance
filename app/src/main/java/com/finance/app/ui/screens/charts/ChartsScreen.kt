@@ -373,7 +373,7 @@ private fun DonutChart(
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White
             )
-            // Smaller label if needed
+
         }
     }
 }
@@ -467,7 +467,7 @@ private fun CategoryBreakdownRow(spend: CategorySpend) {
                     trackColor = categoryColor.copy(alpha = 0.1f),
                     strokeCap = StrokeCap.Round
                 )
-                // Percentage text label if needed
+
             }
         }
     }

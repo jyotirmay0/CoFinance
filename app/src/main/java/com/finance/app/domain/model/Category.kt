@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.HealthAndSafety
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Subscriptions
 import androidx.compose.material.icons.filled.TrendingUp
@@ -24,7 +23,6 @@ enum class Category(
     // Expense categories
     FOOD("Food", Icons.Default.Fastfood),
     TRAVEL("Travel", Icons.Default.Flight),
-    BILLS("Bills", Icons.Default.Receipt),
     SHOPPING("Shopping", Icons.Default.ShoppingCart),
     ENTERTAINMENT("Entertainment", Icons.Default.EmojiEvents),
     HEALTH("Health", Icons.Default.HealthAndSafety),

@@ -71,7 +71,7 @@ fun SpendingCategorySection(
             modifier = Modifier.weight(1.2f)
         )
 
-        // Remaining — stacked small cards
+        // Remaining
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(12.dp)

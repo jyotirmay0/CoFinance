@@ -51,7 +51,6 @@ class GoalViewModel @Inject constructor(
     private val upsertGoalUseCase: UpsertGoalUseCase
 ) : ViewModel() {
 
-    // ── Goal display state ────────────────────────────────────────────────────
 
     val goalUiState: StateFlow<GoalUiState> = getGoalUseCase.all()
         .map { goals ->
@@ -67,12 +66,10 @@ class GoalViewModel @Inject constructor(
             initialValue = GoalUiState.Loading
         )
 
-    // ── Form state ────────────────────────────────────────────────────────────
 
     private val _formState = MutableStateFlow(GoalFormState())
     val formState: StateFlow<GoalFormState> = _formState.asStateFlow()
 
-    // ── Form actions ──────────────────────────────────────────────────────────
 
     fun prefillForm(goal: Goal) {
         _formState.update {
@@ -170,7 +167,6 @@ class GoalViewModel @Inject constructor(
         _formState.update { GoalFormState() }
     }
 
-    // ── Validation ────────────────────────────────────────────────────────────
 
     private fun validateForm(): Boolean {
         val state = _formState.value

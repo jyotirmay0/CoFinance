@@ -75,7 +75,6 @@ class TransactionViewModel @Inject constructor(
     private val repository: TransactionRepository
 ) : ViewModel() {
 
-    // ── List State ────────────────────────────────────────────────────────────
 
     private val _searchQuery = MutableStateFlow("")
     private val _filter = MutableStateFlow(TransactionFilter())
@@ -124,12 +123,10 @@ class TransactionViewModel @Inject constructor(
             initialValue = TransactionListUiState(isLoading = true)
         )
 
-    // ── Add/Edit State ────────────────────────────────────────────────────────
 
     private val _addEditState = MutableStateFlow(AddEditUiState())
     val addEditState: StateFlow<AddEditUiState> = _addEditState.asStateFlow()
 
-    // ── List Actions ──────────────────────────────────────────────────────────
 
     fun onSearchQueryChange(query: String) {
         _searchQuery.update { query }
@@ -144,7 +141,6 @@ class TransactionViewModel @Inject constructor(
         _filter.update { TransactionFilter() }
     }
 
-    // ── Add/Edit Actions ──────────────────────────────────────────────────────
 
     fun loadTransaction(id: Long) {
         viewModelScope.launch {
@@ -283,7 +279,6 @@ class TransactionViewModel @Inject constructor(
         _addEditState.update { AddEditUiState() }
     }
 
-    // ── Validation ────────────────────────────────────────────────────────────
 
     private fun validateForm(state: AddEditUiState): Boolean {
         var isValid = true

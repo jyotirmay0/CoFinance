@@ -131,7 +131,6 @@ fun SpendingTrendChart(
                             fillPath.moveTo(x, height)
                             fillPath.lineTo(x, y)
                         } else {
-                            // Cubic-ish curve logic for smooth wave
                             val prevX = (index - 1) * spacing
                             val prevY = height - (filteredTrends[index-1].totalExpense.toFloat() / maxExpense.toFloat() * height * 0.8f) - (height * 0.1f)
                             
@@ -146,7 +145,6 @@ fun SpendingTrendChart(
                     fillPath.lineTo(width, height)
                     fillPath.close()
 
-                    // Draw fill gradient
                     drawPath(
                         path = fillPath,
                         brush = Brush.verticalGradient(
@@ -157,7 +155,7 @@ fun SpendingTrendChart(
                         )
                     )
 
-                    // Draw main line
+
                     drawPath(
                         path = path,
                         color = primaryColor,
@@ -184,7 +182,7 @@ fun SpendingTrendChart(
             
             Spacer(modifier = Modifier.height(16.dp))
 
-            // X-Axis Labels
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween

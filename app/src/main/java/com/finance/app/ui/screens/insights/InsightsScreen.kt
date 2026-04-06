@@ -99,14 +99,12 @@ private fun InsightsContent(data: InsightData) {
             )
         }
 
-        // Hero Chart: Monthly Spending Trend
         if (data.monthlyTrends.isNotEmpty()) {
             item {
                 SpendingTrendChart(trends = data.monthlyTrends)
             }
         }
 
-        // Weekly comparison card (secondary insight)
         item {
             WeeklyComparisonCard(
                 currentWeek = data.currentWeekExpense,
@@ -115,7 +113,6 @@ private fun InsightsContent(data: InsightData) {
             )
         }
 
-        // Highest spending category
         data.highestSpendingCategory?.let { top ->
             item {
                 SectionHeader(title = stringResource(R.string.highest_spending))
@@ -310,7 +307,6 @@ private fun MonthlyTrendChart(trends: List<MonthlyTrend>) {
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Bar chart rows
         trends.forEach { trend ->
             MonthTrendRow(
                 trend = trend,

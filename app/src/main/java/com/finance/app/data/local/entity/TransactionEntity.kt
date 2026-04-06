@@ -8,9 +8,9 @@ data class TransactionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val amount: Double,
-    val type: String,         // "INCOME" or "EXPENSE"
+    val type: String,
     val category: String,
-    val date: Long,           // epoch millis
+    val date: Long,
     val notes: String,
     val createdAt: Long = System.currentTimeMillis()
 )

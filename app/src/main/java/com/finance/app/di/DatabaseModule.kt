@@ -3,7 +3,6 @@ package com.finance.app.di
 import android.content.Context
 import androidx.room.Room
 import com.finance.app.data.local.AppDatabase
-import com.finance.app.data.local.dao.BillDao
 import com.finance.app.data.local.dao.GoalDao
 import com.finance.app.data.local.dao.TransactionDao
 import dagger.Module
@@ -36,8 +35,4 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideGoalDao(db: AppDatabase): GoalDao = db.goalDao()
-
-    @Provides
-    @Singleton
-    fun provideBillDao(db: AppDatabase): BillDao = db.billDao()
 }
