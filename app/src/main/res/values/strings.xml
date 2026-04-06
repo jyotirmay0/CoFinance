@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">CoFinance</string>
+
+
+        <!-- Navigation -->
+        <string name="nav_home">Home</string>
+        <string name="nav_transactions">Transactions</string>
+        <string name="nav_add">Add</string>
+        <string name="nav_bills">Bills</string>
+        <string name="nav_insights">Insights</string>
+
+        <!-- Home -->
+        <string name="greeting_morning">Good Morning</string>
+        <string name="greeting_afternoon">Good Afternoon</string>
+        <string name="greeting_evening">Good Evening</string>
+        <string name="total_balance">Total Balance</string>
+        <string name="income_label">Income</string>
+        <string name="expenses_label">Expenses</string>
+        <string name="recent_transactions">Recent Transactions</string>
+        <string name="see_all">See All</string>
+        <string name="savings_goal">Savings Goal</string>
+        <string name="upcoming_bill">Upcoming Bill</string>
+        <string name="spending_categories">Spending Categories</string>
+
+        <!-- Transactions -->
+        <string name="add_transaction">Add Transaction</string>
+        <string name="edit_transaction">Edit Transaction</string>
+        <string name="transaction_amount">Transaction Amount</string>
+        <string name="expense">Expense</string>
+        <string name="income">Income</string>
+        <string name="category">Category</string>
+        <string name="date">Date</string>
+        <string name="notes">Notes</string>
+        <string name="notes_hint">What was this for?</string>
+        <string name="save_transaction">Save Transaction</string>
+        <string name="delete_transaction">Delete Transaction</string>
+        <string name="search_transactions">Search transactions…</string>
+        <string name="recent_activity">Recent Activity</string>
+        <string name="today">Today</string>
+        <string name="yesterday">Yesterday</string>
+        <string name="filter_category">Category</string>
+        <string name="filter_date">Date</string>
+        <string name="filter_type">Type</string>
+        <string name="confirm_delete">Confirm Delete</string>
+        <string name="delete_message">Are you sure you want to delete this transaction?</string>
+        <string name="cancel">Cancel</string>
+        <string name="delete">Delete</string>
+
+        <!-- Goals -->
+        <string name="goal_title">Savings Goal</string>
+        <string name="goal_name">Goal Name</string>
+        <string name="target_amount">Target Amount</string>
+        <string name="current_amount">Current Amount</string>
+        <string name="save_goal">Save Goal</string>
+        <string name="edit_goal">Edit Goal</string>
+        <string name="goal_progress">%1$s of %2$s saved</string>
+        <string name="goal_completed">Goal Completed! 🎉</string>
+        <string name="no_goal_yet">No goal set yet</string>
+        <string name="create_goal">Create a Goal</string>
+
+        <!-- Insights -->
+        <string name="insights_title">Insights</string>
+        <string name="highest_spending">Highest Spending</string>
+        <string name="weekly_comparison">Weekly Comparison</string>
+        <string name="monthly_trend">Monthly Trend</string>
+        <string name="category_breakdown">Category Breakdown</string>
+        <string name="this_week">This Week</string>
+        <string name="last_week">Last Week</string>
+        <string name="vs_last_week">vs last week</string>
+        <string name="no_data">No data available</string>
+        <string name="spending_healthy">Healthy</string>
+
+        <!-- Bills -->
+        <string name="bills_title">Upcoming Payments</string>
+        <string name="bills_due_this_week">You have %1$d bills due this week.</string>
+        <string name="mark_as_paid">Mark as Paid</string>
+        <string name="pay_now">Pay Now</string>
+        <string name="details">Details</string>
+        <string name="due_in_days">Due in %1$d days</string>
+        <string name="auto_pay_off">Auto-pay off</string>
+
+        <!-- Empty States -->
+        <string name="empty_transactions_title">No transactions yet</string>
+        <string name="empty_transactions_subtitle">Start tracking your spending by adding your first transaction.</string>
+        <string name="empty_insights_title">Not enough data</string>
+        <string name="empty_insights_subtitle">Add a few transactions to see your spending insights.</string>
+        <string name="empty_search_title">No results found</string>
+        <string name="empty_search_subtitle">Try a different keyword or adjust your filters.</string>
+
+        <!-- Errors -->
+        <string name="error_amount_empty">Please enter an amount</string>
+        <string name="error_amount_invalid">Amount must be greater than zero</string>
+        <string name="error_category_empty">Please select a category</string>
+        <string name="error_goal_name_empty">Please enter a goal name</string>
+        <string name="error_target_invalid">Target must be greater than zero</string>
+        <string name="error_generic">Something went wrong. Please try again.</string>
+        <string name="from_last_month">from last month</string>
+        <string name="of_spend">of spend</string>
+    </resources>
