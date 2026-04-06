@@ -3,6 +3,7 @@ package com.finance.app.data.repository
 import com.finance.app.data.local.dao.GoalDao
 import com.finance.app.data.local.entity.GoalEntity
 import com.finance.app.domain.model.Goal
+import com.finance.app.domain.model.GoalType
 import com.finance.app.domain.repository.GoalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -37,6 +38,7 @@ class GoalRepositoryImpl @Inject constructor(
         name = name,
         targetAmount = targetAmount,
         currentAmount = currentAmount,
+        type = GoalType.fromString(type),
         deadline = deadline,
         createdAt = createdAt
     )
@@ -46,6 +48,7 @@ class GoalRepositoryImpl @Inject constructor(
         name = name,
         targetAmount = targetAmount,
         currentAmount = currentAmount,
+        type = type.name,
         deadline = deadline,
         createdAt = createdAt
     )

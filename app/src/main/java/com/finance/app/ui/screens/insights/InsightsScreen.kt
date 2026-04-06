@@ -48,6 +48,7 @@ import com.finance.app.ui.theme.FinanceTheme
 import com.finance.app.ui.theme.IncomeGreen
 import com.finance.app.ui.theme.toColor
 import com.finance.app.ui.viewmodel.InsightsUiState
+import com.finance.app.ui.screens.insights.components.SpendingTrendChart
 import com.finance.app.ui.viewmodel.InsightsViewModel
 import com.finance.app.utils.CurrencyUtils
 
@@ -86,18 +87,26 @@ private fun InsightsContent(data: InsightData) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        // Simple Top Header
         item {
             Text(
-                text = stringResource(R.string.insights_title),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
+                text = "Financial Insights",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(bottom = 4.dp)
             )
         }
 
-        // Weekly comparison card
+        // Hero Chart: Monthly Spending Trend
+        if (data.monthlyTrends.isNotEmpty()) {
+            item {
+                SpendingTrendChart(trends = data.monthlyTrends)
+            }
+        }
+
+        // Weekly comparison card (secondary insight)
         item {
             WeeklyComparisonCard(
                 currentWeek = data.currentWeekExpense,
@@ -116,15 +125,7 @@ private fun InsightsContent(data: InsightData) {
             }
         }
 
-        // Monthly trend
-        if (data.monthlyTrends.isNotEmpty()) {
-            item {
-                SectionHeader(title = stringResource(R.string.monthly_trend))
-            }
-            item {
-                MonthlyTrendChart(trends = data.monthlyTrends)
-            }
-        }
+
 
         // Category breakdown
         if (data.categoryBreakdown.isNotEmpty()) {
@@ -158,10 +159,10 @@ private fun WeeklyComparisonCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(financeColors.cardBackground)
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
             text = stringResource(R.string.weekly_comparison).uppercase(),
@@ -235,7 +236,7 @@ private fun WeekColumn(
         Text(
             text = CurrencyUtils.format(amount),
             style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = if (isHighlighted) MaterialTheme.colorScheme.onSurface
             else financeColors.textSecondary
         )
@@ -250,9 +251,9 @@ private fun HighestSpendingCard(categorySpend: CategorySpend) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(14.dp))
             .background(financeColors.cardBackground)
-            .padding(16.dp),
+            .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -266,7 +267,7 @@ private fun HighestSpendingCard(categorySpend: CategorySpend) {
                 imageVector = categorySpend.category.icon,
                 contentDescription = null,
                 tint = categoryColor,
-                modifier = Modifier.size(26.dp)
+                modifier = Modifier.size(22.dp)
             )
         }
 
@@ -276,7 +277,7 @@ private fun HighestSpendingCard(categorySpend: CategorySpend) {
             Text(
                 text = categorySpend.category.displayName,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
@@ -289,7 +290,7 @@ private fun HighestSpendingCard(categorySpend: CategorySpend) {
         Text(
             text = CurrencyUtils.format(categorySpend.amount),
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = categoryColor
         )
     }
@@ -304,9 +305,9 @@ private fun MonthlyTrendChart(trends: List<MonthlyTrend>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(financeColors.cardBackground)
-            .padding(16.dp),
+            .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         // Bar chart rows
@@ -337,7 +338,7 @@ private fun MonthTrendRow(
             Text(
                 text = trend.monthLabel,
                 style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.width(36.dp)
             )
@@ -390,10 +391,10 @@ private fun CategoryBreakdownItem(spend: CategorySpend) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(financeColors.cardBackground)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -406,7 +407,7 @@ private fun CategoryBreakdownItem(spend: CategorySpend) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .size(32.dp)
                         .clip(CircleShape)
                         .background(categoryColor.copy(alpha = 0.15f)),
                     contentAlignment = Alignment.Center
@@ -415,13 +416,13 @@ private fun CategoryBreakdownItem(spend: CategorySpend) {
                         imageVector = spend.category.icon,
                         contentDescription = null,
                         tint = categoryColor,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(16.dp)
                     )
                 }
                 Text(
                     text = spend.category.displayName,
                     style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -429,7 +430,7 @@ private fun CategoryBreakdownItem(spend: CategorySpend) {
                 Text(
                     text = CurrencyUtils.format(spend.amount),
                     style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(

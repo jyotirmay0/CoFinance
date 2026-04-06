@@ -10,6 +10,7 @@ import com.finance.app.utils.DateUtils
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
@@ -22,14 +23,20 @@ class GetInsightsUseCase @Inject constructor(
         val currentWeekEnd = DateUtils.endOfWeek(now)
         val previousWeekStart = DateUtils.startOfPreviousWeek(now)
         val previousWeekEnd = DateUtils.endOfPreviousWeek(now)
-        val sixMonthsAgo = DateUtils.sixMonthsAgo(now)
+        val twelveMonthsAgo = Calendar.getInstance().apply {
+            add(Calendar.MONTH, -11)
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }.timeInMillis
 
         return combine(
             repository.getAllTransactions(),
             repository.getExpensesBetween(currentWeekStart, currentWeekEnd),
             repository.getExpensesBetween(previousWeekStart, previousWeekEnd),
-            repository.getExpensesBetween(sixMonthsAgo, now)
-        ) { all, currentWeekTx, previousWeekTx, last6MonthsTx ->
+            repository.getFilteredTransactions(startDate = twelveMonthsAgo, endDate = now)
+        ) { all, currentWeekTx, previousWeekTx, last12MonthsTx ->
 
             // 1. Category breakdown (expenses only)
             val expenseTransactions = all.filter { it.type == TransactionType.EXPENSE }
@@ -59,24 +66,26 @@ class GetInsightsUseCase @Inject constructor(
             else if (currentWeekTotal > 0) 100.0
             else 0.0
 
-            // 4. Monthly trends (last 6 months)
+            // 4. Monthly trends (last 12 months, ordered correctly)
             val monthFormatter = SimpleDateFormat("MMM", Locale.getDefault())
-            val monthlyTrends = last6MonthsTx
-                .groupBy { tx ->
-                    monthFormatter.format(tx.date)
+            val calendar = Calendar.getInstance()
+            
+            val monthlyTrends = (0..11).map { monthsAgo ->
+                val cal = (calendar.clone() as Calendar).apply {
+                    add(Calendar.MONTH, -monthsAgo)
                 }
-                .map { (month, txList) ->
-                    MonthlyTrend(
-                        monthLabel = month,
-                        totalIncome = txList
-                            .filter { it.type == TransactionType.INCOME }
-                            .sumOf { it.amount },
-                        totalExpense = txList
-                            .filter { it.type == TransactionType.EXPENSE }
-                            .sumOf { it.amount }
-                    )
-                }
-                .takeLast(6)
+                val label = monthFormatter.format(cal.time)
+                val startOfMonth = DateUtils.startOfMonth(cal.timeInMillis)
+                val endOfMonth = DateUtils.endOfMonth(cal.timeInMillis)
+                
+                val monthTx = last12MonthsTx.filter { it.date in startOfMonth..endOfMonth }
+                
+                MonthlyTrend(
+                    monthLabel = label,
+                    totalIncome = monthTx.filter { it.type == TransactionType.INCOME }.sumOf { it.amount },
+                    totalExpense = monthTx.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
+                )
+            }.reversed() // From oldest to newest
 
             InsightData(
                 highestSpendingCategory = highestSpending,

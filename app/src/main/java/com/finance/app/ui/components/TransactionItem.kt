@@ -45,16 +45,16 @@ fun TransactionItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(financeColors.cardBackground)
             .clickable(onClick = onClick)
-            .padding(16.dp),
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Category icon circle
         Box(
             modifier = Modifier
-                .size(46.dp)
+                .size(38.dp)
                 .clip(CircleShape)
                 .background(categoryColor.copy(alpha = 0.15f)),
             contentAlignment = Alignment.Center
@@ -63,7 +63,7 @@ fun TransactionItem(
                 imageVector = transaction.category.icon,
                 contentDescription = transaction.category.displayName,
                 tint = categoryColor,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(18.dp)
             )
         }
 
@@ -80,7 +80,7 @@ fun TransactionItem(
                 else
                     transaction.category.displayName,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -102,7 +102,7 @@ fun TransactionItem(
         Text(
             text = "$amountPrefix${CurrencyUtils.format(transaction.amount)}",
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = amountColor
         )
     }

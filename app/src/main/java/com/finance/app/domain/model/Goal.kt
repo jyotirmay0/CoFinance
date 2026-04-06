@@ -5,6 +5,7 @@ data class Goal(
     val name: String,
     val targetAmount: Double,
     val currentAmount: Double,
+    val type: GoalType = GoalType.OTHER,
     val deadline: Long? = null,
     val createdAt: Long = System.currentTimeMillis()
 ) {

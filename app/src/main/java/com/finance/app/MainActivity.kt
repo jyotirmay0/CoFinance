@@ -1,5 +1,6 @@
 package com.finance.app
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,14 +9,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.DonutLarge
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Receipt
+import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -24,16 +23,18 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -65,6 +66,16 @@ class MainActivity : ComponentActivity() {
                 AppTheme.SYSTEM -> androidx.compose.foundation.isSystemInDarkTheme()
             }
             
+            val view = LocalView.current
+            if (!view.isInEditMode) {
+                SideEffect {
+                    val window = (view.context as Activity).window
+                    window.statusBarColor = Color.Transparent.toArgb()
+                    val controller = WindowCompat.getInsetsController(window, view)
+                    controller.isAppearanceLightStatusBars = !useDarkTheme
+                }
+            }
+            
             FinanceCompanionTheme(darkTheme = useDarkTheme) {
                 FinanceApp()
             }
@@ -87,7 +98,8 @@ fun FinanceApp() {
     val bottomNavItems = listOf(
         BottomNavItem(Screen.Home, "Home", Icons.Default.Home),
         BottomNavItem(Screen.Transactions, "Transactions", Icons.Default.SwapHoriz),
-        BottomNavItem(Screen.Bills, "Bills", Icons.Default.Receipt),
+        BottomNavItem(Screen.Goal, "Goals", Icons.Default.ShowChart),
+        BottomNavItem(Screen.Charts, "Charts", Icons.Default.DonutLarge),
         BottomNavItem(Screen.Insights, "Insights", Icons.Default.BarChart)
     )
 
@@ -114,9 +126,6 @@ fun FinanceApp() {
                             launchSingleTop = true
                             restoreState = true
                         }
-                    },
-                    onFabClick = {
-                        navController.navigate(Screen.AddTransaction.route)
                     }
                 )
             }
@@ -133,8 +142,7 @@ fun FinanceApp() {
 fun FinanceBottomNav(
     items: List<BottomNavItem>,
     currentDestination: androidx.navigation.NavDestination?,
-    onItemClick: (Screen) -> Unit,
-    onFabClick: () -> Unit
+    onItemClick: (Screen) -> Unit
 ) {
     val financeColors = FinanceTheme.colors
 
@@ -142,59 +150,7 @@ fun FinanceBottomNav(
         containerColor = MaterialTheme.colorScheme.surface,
         tonalElevation = 0.dp
     ) {
-        // First 2 items
-        items.take(2).forEach { item ->
-            val selected = currentDestination?.hierarchy
-                ?.any { it.route == item.screen.route } == true
-            NavigationBarItem(
-                selected = selected,
-                onClick = { onItemClick(item.screen) },
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.label
-                    )
-                },
-                label = {
-                    Text(
-                        text = item.label,
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    selectedTextColor = MaterialTheme.colorScheme.primary,
-                    unselectedIconColor = financeColors.textSecondary,
-                    unselectedTextColor = financeColors.textSecondary,
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                )
-            )
-        }
-
-        // Center FAB slot
-        NavigationBarItem(
-            selected = false,
-            onClick = onFabClick,
-            icon = {
-                FloatingActionButton(
-                    onClick = onFabClick,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.add_transaction)
-                    )
-                }
-            },
-            label = { Text("") },
-            colors = NavigationBarItemDefaults.colors(
-                indicatorColor = MaterialTheme.colorScheme.background
-            )
-        )
-
-        // Last 2 items
-        items.takeLast(2).forEach { item ->
+        items.forEach { item ->
             val selected = currentDestination?.hierarchy
                 ?.any { it.route == item.screen.route } == true
             NavigationBarItem(

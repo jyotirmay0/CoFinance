@@ -14,9 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.TrendingUp
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,16 +30,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.finance.app.R
 import com.finance.app.ui.theme.BrandBlue
 import com.finance.app.ui.theme.BrandBlueDark
 import com.finance.app.ui.theme.BrandBlueLight
-import com.finance.app.ui.theme.FinanceTheme
 import com.finance.app.utils.CurrencyUtils
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun BalanceCard(
@@ -64,12 +62,17 @@ fun BalanceCard(
 
     LaunchedEffect(Unit) { animationStarted = true }
 
+    // Current month name e.g. "April 2026"
+    val monthLabel = remember {
+        SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
+    }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(gradient)
-            .padding(24.dp)
+            .padding(16.dp)
     ) {
         // Decorative circle top-right
         Box(
@@ -88,45 +91,54 @@ fun BalanceCard(
         )
 
         Column {
-            Text(
-                text = stringResource(R.string.total_balance).uppercase(),
-                style = MaterialTheme.typography.labelMedium,
-                color = Color.White.copy(alpha = 0.75f),
-                letterSpacing = 1.5.sp
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = CurrencyUtils.format(animatedBalance.toDouble()),
-                style = MaterialTheme.typography.displayMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
+            // "This Month" badge
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
                     .background(Color.White.copy(alpha = 0.15f))
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.TrendingUp,
+                    imageVector = Icons.Default.CalendarMonth,
                     contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(14.dp)
+                    tint = Color.White.copy(alpha = 0.9f),
+                    modifier = Modifier.size(12.dp)
                 )
                 Text(
-                    text = "+${String.format("%.1f", changePercent)}% " +
-                            stringResource(R.string.from_last_month),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Color.White
+                    text = monthLabel,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.9f),
+                    fontSize = 11.sp
                 )
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "THIS MONTH'S BALANCE",
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White.copy(alpha = 0.6f),
+                letterSpacing = 1.2.sp
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = CurrencyUtils.format(animatedBalance.toDouble()),
+                style = MaterialTheme.typography.displayMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = if (totalBalance >= 0) "Net savings this month" else "Overspent this month",
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White.copy(alpha = 0.7f)
+            )
         }
     }
 }

@@ -43,13 +43,15 @@ fun SummaryRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         SummaryCard(
-            label = stringResource(R.string.income_label),
+            label = "Income",
+            subLabel = "This Month",
             amount = totalIncome,
             isIncome = true,
             modifier = Modifier.weight(1f)
         )
         SummaryCard(
-            label = stringResource(R.string.expenses_label),
+            label = "Expenses",
+            subLabel = "This Month",
             amount = totalExpense,
             isIncome = false,
             modifier = Modifier.weight(1f)
@@ -60,6 +62,7 @@ fun SummaryRow(
 @Composable
 fun SummaryCard(
     label: String,
+    subLabel: String = "",
     amount: Double,
     isIncome: Boolean,
     modifier: Modifier = Modifier
@@ -70,9 +73,9 @@ fun SummaryCard(
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(financeColors.cardBackground)
-            .padding(16.dp)
+            .padding(12.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -83,7 +86,7 @@ fun SummaryCard(
                 contentDescription = label,
                 tint = accentColor,
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(24.dp)
                     .clip(CircleShape)
                     .background(accentColor.copy(alpha = 0.12f))
                     .padding(4.dp)
@@ -101,9 +104,17 @@ fun SummaryCard(
         Text(
             text = CurrencyUtils.format(amount),
             style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
         )
+
+        if (subLabel.isNotEmpty()) {
+            Text(
+                text = subLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = financeColors.textSecondary
+            )
+        }
     }
 }
 

@@ -3,6 +3,7 @@ package com.finance.app.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.finance.app.domain.model.Goal
+import com.finance.app.domain.model.GoalType
 import com.finance.app.domain.usecase.GetGoalUseCase
 import com.finance.app.domain.usecase.UpsertGoalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +27,8 @@ sealed class GoalUiEvent {
 
 sealed class GoalUiState {
     data object Loading : GoalUiState()
-    data class HasGoal(val goal: Goal) : GoalUiState()
-    data object NoGoal : GoalUiState()
+    data class HasGoals(val goals: List<Goal>) : GoalUiState()
+    data object NoGoals : GoalUiState()
     data class Error(val message: String) : GoalUiState()
 }
 
@@ -35,6 +36,7 @@ data class GoalFormState(
     val name: String = "",
     val targetAmount: String = "",
     val currentAmount: String = "",
+    val type: GoalType = GoalType.OTHER,
     val deadline: Long? = null,
     val nameError: String? = null,
     val targetError: String? = null,
@@ -51,13 +53,13 @@ class GoalViewModel @Inject constructor(
 
     // ── Goal display state ────────────────────────────────────────────────────
 
-    val goalUiState: StateFlow<GoalUiState> = getGoalUseCase()
-        .map { goal ->
-            if (goal != null) GoalUiState.HasGoal(goal)
-            else GoalUiState.NoGoal
+    val goalUiState: StateFlow<GoalUiState> = getGoalUseCase.all()
+        .map { goals ->
+            if (goals.isEmpty()) GoalUiState.NoGoals
+            else GoalUiState.HasGoals(goals)
         }
         .catch { e ->
-            emit(GoalUiState.Error(e.message ?: "Failed to load goal"))
+            emit(GoalUiState.Error(e.message ?: "Failed to load goals"))
         }
         .stateIn(
             scope = viewModelScope,
@@ -78,6 +80,7 @@ class GoalViewModel @Inject constructor(
                 name = goal.name,
                 targetAmount = goal.targetAmount.toString(),
                 currentAmount = goal.currentAmount.toString(),
+                type = goal.type,
                 deadline = goal.deadline
             )
         }
@@ -95,6 +98,10 @@ class GoalViewModel @Inject constructor(
         _formState.update { it.copy(currentAmount = value, currentError = null) }
     }
 
+    fun onTypeChange(value: GoalType) {
+        _formState.update { it.copy(type = value) }
+    }
+
     fun onDeadlineChange(value: Long?) {
         _formState.update { it.copy(deadline = value) }
     }
@@ -108,6 +115,7 @@ class GoalViewModel @Inject constructor(
             name = state.name.trim(),
             targetAmount = state.targetAmount.toDouble(),
             currentAmount = state.currentAmount.toDoubleOrNull() ?: 0.0,
+            type = state.type,
             deadline = state.deadline
         )
 

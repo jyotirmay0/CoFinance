@@ -8,11 +8,11 @@ val BrandBlueDark    = Color(0xFF3A56D4)
 val BrandBlueLight   = Color(0xFF7B97FF)
 
 // ── Dark Theme Surfaces ───────────────────────────────────────────────────────
-val DarkBackground   = Color(0xFF0D0F14)
-val DarkSurface      = Color(0xFF161A23)
-val DarkSurfaceVar   = Color(0xFF1E2433)
-val DarkCard         = Color(0xFF1A1F2E)
-val DarkCardAlt      = Color(0xFF212636)
+val DarkBackground   = Color(0xFF0A0B0F) // Slightly darker, more premium black/blue
+val DarkSurface      = Color(0xFF12141C)
+val DarkSurfaceVar   = Color(0xFF1A1D29)
+val DarkCard         = Color(0xFF151821)
+val DarkCardAlt      = Color(0xFF1D212E)
 
 // ── Light Theme Surfaces ──────────────────────────────────────────────────────
 val LightBackground  = Color(0xFFF4F6FB)

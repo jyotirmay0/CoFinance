@@ -5,7 +5,7 @@ sealed class Screen(val route: String) {
     // Bottom nav screens
     data object Home : Screen("home")
     data object Transactions : Screen("transactions")
-    data object Bills : Screen("bills")
+    data object Charts : Screen("charts")
     data object Insights : Screen("insights")
     data object Goal : Screen("goal")
     data object Settings : Screen("settings")
@@ -23,6 +23,6 @@ sealed class Screen(val route: String) {
     }
 
     companion object {
-        val bottomNavItems = listOf(Home, Transactions, Bills, Insights)
+        val bottomNavItems = listOf(Home, Transactions, Charts, Insights)
     }
 }

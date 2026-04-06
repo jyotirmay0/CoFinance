@@ -11,7 +11,7 @@ import com.finance.app.data.local.entity.TransactionEntity
 
 @Database(
     entities = [TransactionEntity::class, GoalEntity::class, BillEntity::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

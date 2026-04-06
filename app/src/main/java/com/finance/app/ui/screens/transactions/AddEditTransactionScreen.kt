@@ -291,7 +291,7 @@ private fun AmountSection(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "$",
+                text = "₹",
                 style = MaterialTheme.typography.displaySmall,
                 color = financeColors.textSecondary,
                 fontWeight = FontWeight.Light
@@ -351,9 +351,10 @@ private fun TypeSelector(
                 shape = SegmentedButtonDefaults.itemShape(index, types.size),
                 label = {
                     Text(
-                        text = if (type == TransactionType.EXPENSE)
-                            stringResource(R.string.expense)
-                        else stringResource(R.string.income),
+                        text = when (type) {
+                            TransactionType.EXPENSE -> stringResource(R.string.expense)
+                            TransactionType.INCOME -> stringResource(R.string.income)
+                        },
                         fontWeight = FontWeight.SemiBold
                     )
                 }
